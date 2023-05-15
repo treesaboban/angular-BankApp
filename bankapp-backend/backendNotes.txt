@@ -1,0 +1,72 @@
+                             BackEnd for BankApp
+            --------------------------------------------------------
+                         NODEJS + EXPRESS + MONGODB
+BASIC STEPS
+-----------
+1 Creation of package.json file -> npm init or (npm init -y)
+2 Create index.js file as entry point of server app 
+3 Install express (for getting node modules) -> npm i express or npm install express
+4 Import express in index.js file -> const express = require("express");
+5 Then in index.js -
+          * create a server using express -> const server = express()
+6 Setup port number(5000) for the server app -> server.listen(5000,()=>
+                                        {
+                                        console.log("listening on port 5000");
+                                        })
+7 Install cors (Cross Origin Resource Sharing) -> npm i cors : to share data with different port numbers
+8 Use cors in server app (index.js) :
+    * import and use cors -> const cors = require("cors");
+                             server.use(cors({
+                             origin:"http://localhost:4200"   //backend to frontend connection,so specify the front end path(remove the last slash): "http://localhost:4200/"
+                             }))
+9 parse json data to the js in server app -> server.use(express.json())
+10 To resolve client requests - get,put,post,delete
+11 create db and collection in MONGODB
+12 db connection with nodejs server - mongodb (mongoose(for connecting mongodb and nodejs) library)
+13 install mongoose -> npm i mongoose
+14 create a folder 'services'
+15 create a file db.js in services
+16 In db.js :
+        //database connection with nodejs
+      * import (the installed) mongoose -> const mongoose=require('mongoose');
+      * define a connection string b/w express and mongodb -> mongoose.connect('mongodb://localhost:27017/BankServer') 
+        //link from mongodb(3 dots on top-left)
+      * create a model and schema for storing data into the db
+        //model-User(singular form of the collection from the db and capitalize first letter)
+        //schema -{} inside the curly braces
+        //model(singular,capital letter first) in express is same as mongodb collection name(plural,small letter first)
+          -> const User=mongoose.model('User',
+           {
+             acno:Number,
+             username:String,
+             password:String,
+             balance:Number,
+             transaction:[]
+           })
+      * export the collection -> module.exports={ User }
+17 logic to resolve client requests - create a new file in services 'logic.js'
+18 In logic.js :
+    * import db.js -> const db=require('./db.js')
+    * create an arrow function for register and export it
+    * import logic.js in index.js and call register method from logic(inside register api call)
+19 Login Integration :
+   * create a logic for login-login()
+   * login server api call
+   * testing in postman ok ? frontend login service
+20 Logic for bal enquiry (logic.js) :
+            * create function: const getBalance=()=>{ }
+            * export it
+            * create api call for getBalance in index.js
+            * test in postman
+21 Token Generate (for bal enq) :
+     Authorization -
+           i) Jsonwebtoken : Install jwt token -> npm i jsonwebtoken
+           ii) import jwttoken in logic.js -> const jwt=require('jsonwebtoken');
+           iii) generate a token - sign()
+              using jwttoken generate token for user who loggedin successfull
+              logic = login successfull + sign()
+              use sign() in login()
+          iv) to set token into local storage (frontend) - login
+
+ 
+
